@@ -1,4 +1,4 @@
-package com.duchin.varlogs.util;
+package com.duchin.varlogs.io;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -12,8 +12,8 @@ class FileUtilTest {
   public static final File VAR_LOG_DIR = new File("/var/log");
 
   @Test
-  public void fetchFileNames_varLogs() {
-    Set<String> logs = FileUtil.fetchFileNames(VAR_LOG_DIR, ".log");
+  public void listFileNames_varLogs() {
+    Set<String> logs = FileUtil.listFileNames(VAR_LOG_DIR, ".log");
     assertThat(logs.size()).isAtLeast(10);
   }
 }

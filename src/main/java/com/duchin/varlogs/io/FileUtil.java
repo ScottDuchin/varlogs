@@ -1,4 +1,4 @@
-package com.duchin.varlogs.util;
+package com.duchin.varlogs.io;
 
 import java.io.File;
 import java.util.Arrays;
@@ -13,10 +13,14 @@ public final class FileUtil {
   private FileUtil() {
   }
 
-  /** Prepares a set of file names from provided directory that have provided extension. */
+  /**
+   * Prepares an ordered set of file names from provided directory that match extension.
+   * @param dir the directory to list files from
+   * @param ext the extension the file name must have to be listed
+   */
   @SuppressWarnings("unchecked") // empty set complaining about casting
-  public static Set<String> fetchFileNames(File dir, String extension) {
-    File[] matches = dir.listFiles((dir1, name) -> name.endsWith(extension));
+  public static Set<String> listFileNames(File dir, String ext) {
+    File[] matches = dir.listFiles((dir1, name) -> name.endsWith(ext));
     return matches == null ? Collections.EMPTY_SET
         : new TreeSet<>(Arrays.stream(matches).map(File::getName).collect(Collectors.toSet()));
   }
