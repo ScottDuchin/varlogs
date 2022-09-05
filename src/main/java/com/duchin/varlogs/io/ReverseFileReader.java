@@ -13,29 +13,26 @@ import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 /**
- * A log file reader that return lines in reverse order to have the most recent lines
+ * A file reader that return lines in reverse order to have the most recent lines
  * returned first as they are the most relevant to review.
- * TODO(sduchin): this class was written as instructed in a job interview assignment,
- *                should probably be replaced with apache commons io ReversedLinesFileReader
- *                NOTE: the commons io class WAS NOT reviewed or used as a template for this one
  */
-public class ReverseLogReader {
+public class ReverseFileReader {
 
   private static final int MIN_BLOCK_SIZE = 1024;
 
   @Value("${var-log.read.block-size}")
   private int BLOCK_SIZE = 4096;
 
-  private final RandomAccessFile raf;
+  private final RandomAccessFile randomAccessFile;
 
   /**
    * Constructor.
-   * @param logFile the log file to read lines from in reverse order
-   * @throws FileNotFoundException if the log file cannot be processed
+   * @param file the file to read lines from in reverse order
+   * @throws FileNotFoundException if the file cannot be processed
    */
-  public ReverseLogReader(File logFile)
+  public ReverseFileReader(File file)
       throws FileNotFoundException {
-    raf = new RandomAccessFile(logFile, "r");
+    randomAccessFile = new RandomAccessFile(file, "r");
     if (BLOCK_SIZE < MIN_BLOCK_SIZE) {
       BLOCK_SIZE = MIN_BLOCK_SIZE; // minimum size for a block
     }
@@ -50,7 +47,7 @@ public class ReverseLogReader {
   public List<String> readLinesReverse(int maxLines, @Nullable Pattern pattern)
       throws IOException {
     List<String> lines = new ArrayList<>();
-    long cursor = raf.length();
+    long cursor = randomAccessFile.length();
     if (cursor == 0) {
       return lines;
     }
@@ -59,34 +56,27 @@ public class ReverseLogReader {
     for (;;) {
       // move cursor back to start of previous block to read
       int readMax = (int) Math.min(BLOCK_SIZE, cursor);
-      raf.seek(cursor - readMax);
-      int bytesRead = raf.read(block, 0, readMax);
+      long seekPosition = cursor - readMax;
+      randomAccessFile.seek(seekPosition);
+      int bytesRead = randomAccessFile.read(block, 0, readMax);
       if (bytesRead == 0) {
         break;
       }
       // TODO(sduchin): profile performance of scanning raw byte[] vs converting to String
       String blockText = new String(block, 0, bytesRead, StandardCharsets.UTF_8);
       String[] splits = blockText.split("\n");
-      for (int i = splits.length - 1; i > 0; i--) {
-        addRegexLine(lines, pattern, splits[i]);
+      // the 0th index will only be considered a complete line if seekPosition at start of file
+      // cannot tell if it is a complete line in middle of file without peeking at seekPosition - 1
+      for (int i = splits.length - 1; i > 0 || i == 0 && seekPosition == 0; i--) {
+        if (pattern == null || pattern.matcher(splits[i]).find()) {
+          lines.add(splits[i]);
+        }
         if (lines.size() >= maxLines) {
           return lines;
         }
-        cursor -= splits[i].length();
-      }
-      // the last splits is probably a partial line, make sure it is not end of file else circle
-      if (bytesRead < BLOCK_SIZE) {
-        addRegexLine(lines, pattern, splits[0]);
-        break; // read the file
+        cursor -= splits[i].length() + 1; // line + linefeed
       }
     }
     return lines;
-  }
-
-  // only add line if no pattern or pattern matches
-  private void addRegexLine(List<String> lines, @Nullable Pattern pattern, String line) {
-    if (pattern == null || pattern.matcher(line).find()) {
-      lines.add(line);
-    }
   }
 }

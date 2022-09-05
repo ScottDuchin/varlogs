@@ -5,7 +5,7 @@ import com.duchin.varlogs.exception.LogNotFoundException;
 import com.duchin.varlogs.exception.LogReadFailedException;
 import com.duchin.varlogs.exception.NoLogLinesException;
 import com.duchin.varlogs.io.FileUtil;
-import com.duchin.varlogs.io.ReverseLogReader;
+import com.duchin.varlogs.io.ReverseFileReader;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -47,7 +47,7 @@ public class VarLogsService {
     }
     try {
       @Nullable Pattern pattern = regex == null ? null : Pattern.compile(regex);
-      ReverseLogReader reverseLogReader = new ReverseLogReader(logFile);
+      ReverseFileReader reverseLogReader = new ReverseFileReader(logFile);
       List<String> lines = reverseLogReader.readLinesReverse(maxLines, pattern);
       if (lines.isEmpty()) {
         throw new NoLogLinesException(VAR_LOG, logName);

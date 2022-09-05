@@ -1,0 +1,89 @@
+Sep  5 00:04:07 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 00:14:14 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 00:25:28 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.cdscheduler" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.install" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/asl" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.authd" sharing output destination "/var/log/system.log" with ASL Module "com.apple.asl".
+	Output parameters from ASL Module "com.apple.asl" override any specified in ASL Module "com.apple.authd".
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.authd" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.eventmonitor" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.mail" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.performance" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.iokit.power" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.contacts.ContactsAutocomplete" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.mkb" sharing output destination "/private/var/log/keybagd.log" with ASL Module "com.apple.mkb.internal".
+	Output parameters from ASL Module "com.apple.mkb.internal" override any specified in ASL Module "com.apple.mkb".
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.mkb" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.apple.MessageTracer" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:00 mScott syslogd[116]: Configuration Notice:
+	ASL Module "com.avira.antivirus.asl" claims selected messages.
+	Those messages may not appear in standard system log files or in the ASL database.
+Sep  5 00:30:30 --- last message repeated 17 times ---
+Sep  5 00:38:09 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 00:51:31 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 01:01:52 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 01:13:00 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 01:23:16 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 01:37:41 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 01:48:37 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 02:10:10 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 02:10:17 mScott com.avira.antivirus.servicehubd[75493]: [31m[ERROR]2022-09-05 02:10:17: 89ea9a77-37c2-4af6-9805-a6b493465509:38 Client <-> BackendServices communication failed: 'No such file or directory'[0m
+Sep  5 02:10:17 mScott com.avira.antivirus.servicehubd[75493]: [PluginConnector::getCommLib] Exception: connect() failed
+Sep  5 02:10:17 mScott com.avira.antivirus.servicehubd[75493]: Could not load License Plugin
+Sep  5 03:15:24 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 03:56:15 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 04:20:26 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 04:40:01 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 04:58:28 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 05:34:34 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 06:34:04 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 07:07:52 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 09:02:15 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 09:29:01 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 10:37:18 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 10:47:20 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 10:58:20 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 11:09:52 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 11:22:34 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 11:33:53 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 11:45:06 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 12:00:32 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 12:12:47 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 12:19:36 mScott com.avira.antivirus.servicehubd[78867]: [31m[ERROR]2022-09-05 12:19:36: 89ea9a77-37c2-4af6-9805-a6b493465509:38 Client <-> BackendServices communication failed: 'No such file or directory'[0m
+Sep  5 12:19:36 mScott com.avira.antivirus.servicehubd[78867]: [PluginConnector::getCommLib] Exception: connect() failed
+Sep  5 12:19:36 mScott com.avira.antivirus.servicehubd[78867]: Could not load License Plugin
+Sep  5 12:23:47 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 12:33:50 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 12:43:57 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 12:54:44 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 12:55:52 mScott login[80132]: USER_PROCESS: 80132 ttys001
+Sep  5 13:06:14 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 13:16:17 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 13:32:13 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 13:44:33 mScott syslogd[116]: ASL Sender Statistics
+Sep  5 13:57:01 mScott syslogd[116]: ASL Sender Statistics
