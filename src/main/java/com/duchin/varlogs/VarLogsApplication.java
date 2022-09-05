@@ -11,7 +11,10 @@ import io.swagger.v3.oas.annotations.info.Info;
  */
 @SpringBootApplication
 @OpenAPIDefinition(
-    info = @Info(title = "Var Logs API", version = "1.0", description = "APIs to retrieve logs"))
+    info = @Info(title = "Var Logs API", version = "1.0",
+    description = "APIs to retrieve lines of logs within /var/log directory."
+        + "\n  1) The list of available logs can be retrieved by running the /findAll API."
+        + "\n  2) Lines can then be retrieved from that log by running the /readLines API."))
 public class VarLogsApplication {
 
   /** Main method to start Spring boot application. */
