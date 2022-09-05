@@ -1,2 +1,5 @@
-/** Common utilities that are required for var-logs service. Could move to more centric project. */
+/**
+ * Common utilities and classes that perform input/output tasks in support of the vars-log project.
+ * Should move to a more centric project when other projects can utilize this package.
+ */
 package com.duchin.varlogs.io;

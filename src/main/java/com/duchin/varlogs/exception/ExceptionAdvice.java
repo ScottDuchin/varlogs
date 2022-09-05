@@ -27,6 +27,12 @@ public class ExceptionAdvice {
     return new ErrorResponse(HttpStatus.NOT_FOUND, e.getMessage());
   }
 
+  @ExceptionHandler(LogReadFailedException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ErrorResponse handleReadFailure(LogReadFailedException e) {
+    return new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+  }
+
   @ExceptionHandler(IllegalArgumentException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   public ErrorResponse handleValidation(IllegalArgumentException e) {

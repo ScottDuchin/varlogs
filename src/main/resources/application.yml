@@ -1,0 +1,4 @@
+var-log:
+  read:
+    block-size: 8192
+    max-lines: 1000

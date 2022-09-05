@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,9 +15,12 @@ import java.util.List;
 import java.util.Set;
 import javax.annotation.Nullable;
 
-/** REST controller for processing requests related to /var/logs log files. */
+/** REST controller for processing requests related to /var/logs directory log files. */
 @RestController("/varlogs")
 public class VarLogsController {
+
+  @Value("${var-log.read.max-lines}")
+  private long MAX_LINES = 5000;
 
   private final VarLogsService varLogsService;
 
@@ -48,20 +52,25 @@ public class VarLogsController {
       @ApiResponse(responseCode = "200"),
       @ApiResponse(responseCode = "204", description = "either log is empty or no lines matched",
           content = @Content(mediaType = "application/json")),
-      @ApiResponse(responseCode = "400", description = "bad request due to validation",
+      @ApiResponse(responseCode = "400", description = "bad request due to parameter validation",
           content = @Content(mediaType = "application/json")),
       @ApiResponse(responseCode = "401", description = "log file read is unauthorized",
           content = @Content(mediaType = "application/json")),
       @ApiResponse(responseCode = "404", description = "log file not found",
+          content = @Content(mediaType = "application/json")),
+      @ApiResponse(responseCode = "500", description = "log file had read failure",
           content = @Content(mediaType = "application/json"))
   })
   @GetMapping(value = "/readLines/{logName}", produces = "application/json")
   public List<String> readLines(@PathVariable String logName,
       @RequestParam(required = false, defaultValue = "100") int maxLines,
       @Nullable @RequestParam(required = false) String regex) {
-    if (maxLines > 5000) {
-      throw new IllegalArgumentException("maxLines exceeded API limit of 5000");
+    if (MAX_LINES != 5000) {
+      throw new IllegalArgumentException("value of " + MAX_LINES);
     }
-    return varLogsService.readLines(logName, maxLines, regex);
+    if (maxLines > MAX_LINES) {
+      throw new IllegalArgumentException("maxLines exceeded API limit of " + MAX_LINES);
+    }
+    return varLogsService.readLinesReverse(logName, maxLines, regex);
   }
 }
