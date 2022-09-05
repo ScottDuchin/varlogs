@@ -16,6 +16,16 @@ class ReverseFileReaderTest {
   private static final Pattern PATTERN = Pattern.compile("Statistics");
 
   @Test
+  public void readLinesReverse_abc()
+      throws Exception {
+    URL resource = CLASS_LOADER.getResource("abc.txt");
+    File systemTxt = Paths.get(resource.toURI()).toFile();
+    ReverseFileReader reverseFileReader = new ReverseFileReader(systemTxt);
+    List<String> lines = reverseFileReader.readLinesReverse(100, null);
+    assertThat(lines).containsExactly("xyz", "def", "abc").inOrder();
+  }
+
+  @Test
   public void readLinesReverse_noRegex()
       throws Exception {
     URL resource = CLASS_LOADER.getResource("system.txt");

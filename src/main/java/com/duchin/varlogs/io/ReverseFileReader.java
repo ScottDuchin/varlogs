@@ -65,8 +65,8 @@ public class ReverseFileReader {
       // TODO(sduchin): profile performance of scanning raw byte[] vs converting to String
       String blockText = new String(block, 0, bytesRead, StandardCharsets.UTF_8);
       String[] splits = blockText.split("\n");
-      // the 0th index will only be considered a complete line if seekPosition at start of file
-      // cannot tell if it is a complete line in middle of file without peeking at seekPosition - 1
+      // the 0th index will only be considered a complete line if seekPosition at start of file;
+      // could tell if it is a complete line within middle of file by peeking at seekPosition - 1
       for (int i = splits.length - 1; i > 0 || i == 0 && seekPosition == 0; i--) {
         if (pattern == null || pattern.matcher(splits[i]).find()) {
           lines.add(splits[i]);
