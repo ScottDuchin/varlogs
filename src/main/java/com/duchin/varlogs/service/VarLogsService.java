@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import javax.annotation.Nullable;
 
 /** The service responsible for all business logic associated with retrieving logs from /var. */
@@ -44,12 +46,15 @@ public class VarLogsService {
       throw new NoLogLinesException(VAR_LOG, logName);
     }
     try {
+      @Nullable Pattern pattern = regex == null ? null : Pattern.compile(regex);
       ReverseLogReader reverseLogReader = new ReverseLogReader(logFile);
-      List<String> lines = reverseLogReader.readLinesReverse(maxLines, regex);
+      List<String> lines = reverseLogReader.readLinesReverse(maxLines, pattern);
       if (lines.isEmpty()) {
         throw new NoLogLinesException(VAR_LOG, logName);
       }
       return lines;
+    } catch (PatternSyntaxException e) {
+      throw new IllegalArgumentException("invalid regex pattern supplied: '" + regex + "'");
     } catch (FileNotFoundException e) {
       throw new LogNotFoundException(VAR_LOG, logName);
     } catch (IOException e) {

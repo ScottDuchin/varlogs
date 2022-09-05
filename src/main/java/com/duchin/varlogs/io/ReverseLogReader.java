@@ -9,6 +9,7 @@ import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 /**
@@ -43,12 +44,11 @@ public class ReverseLogReader {
   /**
    * Reads lines from the end of the file in reverse order.
    * @param maxLines the maximum number of lines to be returned
-   * @param regex if provided, the lines returned will match the regex provided
+   * @param pattern if provided, the lines returned must match the regex pattern provided
    * @throws IOException if any problems occur while reading the log file
    */
-  public List<String> readLinesReverse(int maxLines, @Nullable String regex)
+  public List<String> readLinesReverse(int maxLines, @Nullable Pattern pattern)
       throws IOException {
-    // TODO(sduchin): make sure regex matches if not null
     List<String> lines = new ArrayList<>();
     long cursor = raf.length();
     if (cursor == 0) {
@@ -68,7 +68,7 @@ public class ReverseLogReader {
       String blockText = new String(block, 0, bytesRead, StandardCharsets.UTF_8);
       String[] splits = blockText.split("\n");
       for (int i = splits.length - 1; i > 0; i--) {
-        lines.add(splits[i]);
+        addRegexLine(lines, pattern, splits[i]);
         if (lines.size() >= maxLines) {
           return lines;
         }
@@ -76,10 +76,17 @@ public class ReverseLogReader {
       }
       // the last splits is probably a partial line, make sure it is not end of file else circle
       if (bytesRead < BLOCK_SIZE) {
-        lines.add(splits[0]);
+        addRegexLine(lines, pattern, splits[0]);
         break; // read the file
       }
     }
     return lines;
+  }
+
+  // only add line if no pattern or pattern matches
+  private void addRegexLine(List<String> lines, @Nullable Pattern pattern, String line) {
+    if (pattern == null || pattern.matcher(line).find()) {
+      lines.add(line);
+    }
   }
 }
