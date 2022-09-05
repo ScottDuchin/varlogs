@@ -45,7 +45,9 @@ public class VarLogsController {
    * @param maxLines the maximum number of lines to be returned, default: 100.
    *                 this value cannot exceed 5000 else will result in a bad request
    * @param regex if provided, the lines returned will match the regex provided
-   * TODO(sduchin): add date brackets, 'since' and 'until', to filter lines and help with paging
+   * TODO(sduchin): add date brackets, 'since' and 'until', to filter lines, can use for paging
+   * TODO(sduchin): add page number as not all logs have dates
+   *                save name, cursor, log, regex, and user during previous read in short term cache
    */
   @Operation(summary = "Read lines from specified named log in the /var/log directory on this host")
   @ApiResponses({
@@ -65,9 +67,6 @@ public class VarLogsController {
   public List<String> readLines(@PathVariable String logName,
       @RequestParam(required = false, defaultValue = "100") int maxLines,
       @Nullable @RequestParam(required = false) String regex) {
-    if (MAX_LINES != 5000) {
-      throw new IllegalArgumentException("value of " + MAX_LINES);
-    }
     if (maxLines > MAX_LINES) {
       throw new IllegalArgumentException("maxLines exceeded API limit of " + MAX_LINES);
     }

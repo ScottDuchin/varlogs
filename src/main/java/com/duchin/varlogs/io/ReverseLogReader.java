@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -19,8 +20,10 @@ import javax.annotation.Nullable;
  */
 public class ReverseLogReader {
 
+  private static final int MIN_BLOCK_SIZE = 1024;
+
   @Value("${var-log.read.block-size}")
-  private long BLOCK_SIZE = 4096;
+  private int BLOCK_SIZE = 4096;
 
   private final RandomAccessFile raf;
 
@@ -32,6 +35,9 @@ public class ReverseLogReader {
   public ReverseLogReader(File logFile)
       throws FileNotFoundException {
     raf = new RandomAccessFile(logFile, "r");
+    if (BLOCK_SIZE < MIN_BLOCK_SIZE) {
+      BLOCK_SIZE = MIN_BLOCK_SIZE; // minimum size for a block
+    }
   }
 
   /**
@@ -42,8 +48,38 @@ public class ReverseLogReader {
    */
   public List<String> readLinesReverse(int maxLines, @Nullable String regex)
       throws IOException {
+    // TODO(sduchin): make sure regex matches if not null
     List<String> lines = new ArrayList<>();
     long cursor = raf.length();
+    if (cursor == 0) {
+      return lines;
+    }
+    byte[] block = new byte[BLOCK_SIZE];
+    // read and process blocks starting at end of file
+    for (;;) {
+      // move cursor back to start of previous block to read
+      int readMax = (int) Math.min(BLOCK_SIZE, cursor);
+      raf.seek(cursor - readMax);
+      int bytesRead = raf.read(block, 0, readMax);
+      if (bytesRead == 0) {
+        break;
+      }
+      // TODO(sduchin): profile performance of scanning raw byte[] vs converting to String
+      String blockText = new String(block, 0, bytesRead, StandardCharsets.UTF_8);
+      String[] splits = blockText.split("\n");
+      for (int i = splits.length - 1; i > 0; i--) {
+        lines.add(splits[i]);
+        if (lines.size() >= maxLines) {
+          return lines;
+        }
+        cursor -= splits[i].length();
+      }
+      // the last splits is probably a partial line, make sure it is not end of file else circle
+      if (bytesRead < BLOCK_SIZE) {
+        lines.add(splits[0]);
+        break; // read the file
+      }
+    }
     return lines;
   }
 }
