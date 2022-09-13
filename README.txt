@@ -1,4 +1,4 @@
-while the spring boot application is running the API is fully documented at http://localhost:8080/swagger-ui
+while the spring boot application is running the API is fully documented at http://localhost:8080/swagger-ui/index.html
 the swagger ui both fully documents the APIs and allows the user to actually try it out
 note: there are currently a few bugs in swagger version 3 that will require filing bugs for that team to fix
 note: this code will not process special log formats like circular logs
